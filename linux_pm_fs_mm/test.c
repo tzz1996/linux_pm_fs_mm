@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
+#include <pthread.h>
+#include "sched.c"
+
 
 #include "cpu.h"
 #include "sched.h"
@@ -16,7 +19,7 @@ void test_for_task() {
 	init_task_array();
 
 	schedule();
-	printf("%d\n", task_array[0]);
+	printf("%p\n", task_array[0]);
 }
 
 void test_for_cpu() {
@@ -40,4 +43,8 @@ void test_for_time() {
 	printf("start: %ld \n", start);
 	printf("end: %ld \n", end);
 	printf("duration: %ld \n", duration);
+}
+
+void test_for_thread() {
+
 }
