@@ -59,13 +59,19 @@ struct task_struct* create_task(long pid, long priority) {
 	return new_task;
 }
 
-
+/**
+	init the global task array.
+	make task_array[0] -- task_array[NR_TASKS - 1] NULL.
+**/
 void init_task_array() {
 	for (int i = 0; i < NR_TASKS; i++) {
 		task_array[i] = NULL;
 	}
 }
 
+/**
+	free the memory of filp of each task, and free task.
+**/
 void free_task_array() {
 	for (int i = 0; i < NR_TASKS; i++) {
 		for (int j = 0; j < NR_OPEN; j++) {
@@ -77,6 +83,9 @@ void free_task_array() {
 	}
 }
 
+/**
+	scheduler of task.
+**/
 void schedule(void) {
 	struct task_struct** p;
 
@@ -84,4 +93,14 @@ void schedule(void) {
 		if ((*p))
 			printf("founed ");
 	}
+}
+
+
+/**
+	system call, get pid of current task.
+
+	@return  the pid of current task.
+**/
+long sys_get_pid() {
+	return current->pid;
 }

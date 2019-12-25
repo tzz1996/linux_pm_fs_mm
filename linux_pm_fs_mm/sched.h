@@ -1,6 +1,7 @@
 #ifndef _SCHED_H
 #define _SCHED_H
 
+#include <time.h>
 #include "fs.h"
 
 #define NR_TASKS 64
@@ -8,11 +9,6 @@
 
 #define FIRST_TASK task_array[0]
 #define LAST_TASK task_array[NR_TASKS-1]
-
-//#include <linux/head.h>
-//#include <linux/fs.h>
-//#include <linux/mm.h>
-//#include <signal.h>
 
 #if (NR_OPEN > 32)
 #error "Currently the close-on-exec-flags are in one word, max 32 files/proc"
@@ -86,10 +82,10 @@ struct task_struct {
 extern struct task_struct* task_array[NR_TASKS];
 
 extern struct task_struct* current;
-extern long volatile jiffies;
-extern long startup_time;
+extern clock_t volatile time_now;
+extern clock_t startup_time;
 
-#define CURRENT_TIME (startup_time+jiffies/HZ)
+#define CURRENT_TIME (startup_time + time_now / CLOCKS_PER_SEC)
 
 extern void add_timer(long jiffies, void (*fn)(void));
 extern void sleep_on(struct task_struct** p);
