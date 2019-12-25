@@ -3,12 +3,22 @@
 
 
 struct task_struct* current = NULL;
-
 struct task_struct* task_array[NR_TASKS];
+
+clock_t volatile time_now = 0;
+clock_t startup_time = 0;
+
+
+struct task_struct* create_task(long pid, long priority);
+void init_task_array();
+void free_task_array();
+void schedule(void);
+long sys_get_pid();
+
 
 /**
 	create a new task which is in the task_array.
-	
+
 	@param  pid			the pid of the new task.
 	@param  priority    the priority of the new task.
 

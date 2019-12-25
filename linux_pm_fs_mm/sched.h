@@ -1,6 +1,7 @@
-//#ifndef _SCHED_H
-//#define _SCHED_H
+#ifndef _SCHED_H
+#define _SCHED_H
 
+#include <time.h>
 #include "fs.h"
 
 #define NR_TASKS 64
@@ -8,11 +9,6 @@
 
 #define FIRST_TASK task_array[0]
 #define LAST_TASK task_array[NR_TASKS-1]
-
-//#include <linux/head.h>
-//#include <linux/fs.h>
-//#include <linux/mm.h>
-//#include <signal.h>
 
 #if (NR_OPEN > 32)
 #error "Currently the close-on-exec-flags are in one word, max 32 files/proc"
@@ -28,17 +24,23 @@
 #define NULL ((void *) 0)
 #endif
 
-extern void set_current();
-extern void init_task_array();
-extern void free_task_array();
-extern struct task_struct* create_task(long pid, long priority);
-extern int copy_page_tables(unsigned long from, unsigned long to, long size);
-extern int free_page_tables(unsigned long from, unsigned long size);
 
-extern void sched_init(void);
-extern void schedule(void);
-extern void trap_init(void);
-extern void panic(const char* str);
+extern struct task_struct* current;
+extern struct task_struct* task_array[NR_TASKS];
+
+extern clock_t volatile time_now;
+extern clock_t startup_time;
+
+void init_task_array();
+void free_task_array();
+struct task_struct* create_task(long pid, long priority);
+//extern int copy_page_tables(unsigned long from, unsigned long to, long size);
+//extern int free_page_tables(unsigned long from, unsigned long size);
+
+//extern void sched_init(void);
+void schedule(void);
+//extern void trap_init(void);
+//extern void panic(const char* str);
 //extern int tty_write(unsigned minor,char * buf,int count);
 
 typedef int (*fn_ptr)();
@@ -83,18 +85,12 @@ struct task_struct {
 
 
 
-extern struct task_struct* task_array[NR_TASKS];
+#define CURRENT_TIME (startup_time + time_now / HZ)
 
-extern struct task_struct* current;
-extern long volatile jiffies;
-extern long startup_time;
-
-#define CURRENT_TIME (startup_time+jiffies/HZ)
-
-extern void add_timer(long jiffies, void (*fn)(void));
-extern void sleep_on(struct task_struct** p);
-extern void interruptible_sleep_on(struct task_struct** p);
-extern void wake_up(struct task_struct** p);
+//extern void add_timer(long jiffies, void (*fn)(void));
+//extern void sleep_on(struct task_struct** p);
+//extern void interruptible_sleep_on(struct task_struct** p);
+//extern void wake_up(struct task_struct** p);
 
 
-//#endif
+#endif

@@ -2,12 +2,16 @@
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
-#include <pthread.h>
-#include "sched.c"
+//#include <pthread.h>
 
 
 #include "cpu.h"
 #include "sched.h"
+
+
+
+extern clock_t volatile time_now;
+extern clock_t startup_time;
 
 
 
