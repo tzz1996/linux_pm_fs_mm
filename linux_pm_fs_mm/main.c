@@ -12,6 +12,6 @@
 int main(void) {
 	test_for_time();
 
-	return 0;
+	return 1;
 }
 
