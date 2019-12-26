@@ -18,7 +18,7 @@
 
 
 int main(void) {
-	test_for_thread();
+	test_for_task_shell_thread();
 
 	return 0;
 }
